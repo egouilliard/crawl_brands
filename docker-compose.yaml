@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: amaia_pg
+    restart: always
+    environment:
+      POSTGRES_USER: amaia_user
+      POSTGRES_PASSWORD: amaia_pass
+      POSTGRES_DB: amaia_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  app:
+    build: .
+    container_name: amaia_scraper
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: amaia_db
+      DB_USER: amaia_user
+      DB_PASSWORD: amaia_pass
+    volumes:
+      - .:/app
+    command: ["/app/entrypoint.sh"]
+
+volumes:
+  pg_data:

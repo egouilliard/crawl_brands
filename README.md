@@ -1,1 +1,1 @@
-# crawl_brands
+# Amaia London Web Scraper
