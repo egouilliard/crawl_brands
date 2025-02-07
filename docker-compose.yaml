@@ -28,7 +28,23 @@ services:
       DB_PASSWORD: amaia_pass
     volumes:
       - .:/app
+    shm_size: "2gb"  # Prevent Playwright Chrome crashes
     command: ["/app/entrypoint.sh"]
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: amaia_pgadmin
+    restart: always
+    depends_on:
+      - db
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com  # Change this email
+      PGADMIN_DEFAULT_PASSWORD: admin  # Change this password
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
 
 volumes:
   pg_data:
+  pgadmin_data:

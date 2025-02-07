@@ -1,16 +1,20 @@
-# Use an official Python image as a base
-FROM python:3.11-slim
+# Use Playwright's Python image (includes browsers)
+FROM mcr.microsoft.com/playwright/python:v1.50.0-jammy
 
-# Set the working directory in the container
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy requirements file
+# Increase shared memory size (fix Chrome crashes)
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+RUN mkdir -p /ms-playwright && chmod -R 777 /ms-playwright
+
+# Copy only requirements first (to leverage Docker caching)
 COPY requirements.txt .
 
-# Install dependencies
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the project files into the container
+# Copy the rest of the project files
 COPY . .
 
 # Make entrypoint script executable

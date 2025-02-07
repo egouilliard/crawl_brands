@@ -1,0 +1,17 @@
+# Ignore any folder that starts with "data"
+data*/
+
+# Ignore any folder that contains "data" anywhere in its name
+*data*/
+
+# Ignore any folder named "data" inside any directory
+**/data/
+
+# Ignore any folder that starts with "outputs"
+outputs*/
+
+# Ignore any folder that contains "outputs" anywhere in its name
+*outputs*/
+
+# Ignore any folder named "outputs" inside any directory
+**/outputs/
